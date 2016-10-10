@@ -1,0 +1,9 @@
+I = imread('../Dataset/ddb1_fundusimages/image005.png');
+% Hist eq of green channel
+histEq = histeq(I(:,:,2));
+imshow(I);
+figure, imshow(histEq)
+
+% Resize to 500x500 pix
+resized = imresize(histEq, 0.3);
+figure, imshow(histEq)

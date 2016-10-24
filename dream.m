@@ -1,6 +1,6 @@
 %% Preprocessing
 
-I = imread('../Dataset/ddb1_fundusimages/image005.png');
+I = imread('../Dataset/ddb1_fundusimages/image014.png');
 figure('Name', 'Original'), imshow(I);
 % Hist eq of green channel
 histEq = histeq(I(:,:,2));
@@ -26,7 +26,8 @@ figure('Name', 'Laplacian of Gaussian'), imshow(log);
 diffImg = imsubtract(sharp, log);
 
 medianFilt1 = medfilt2(diffImg);
-%% Background Exclusion
+
+% Background Exclusion
 % Apply Average Filter
 h = fspecial('average', [9 9]);
 JF = imfilter(diffImg, h);
@@ -37,18 +38,18 @@ medianFilt = medfilt2(Imdiff);
 figure('Name', 'Diff image with median filtered'), imshow(medianFilt);
 
 
-%% Threshold using the IsoData Method
-level=isodata(medianFilt) % this is our threshold level
-%level = graythresh(Z)
-%% Convert to Binary
-BW = im2bw(medianFilt, level-.008)
-%% Remove small pixels
-BW2 = bwareaopen(BW, 100)
-%% Overlay
-% BW2 = imcomplement(BW2)
-out = imoverlay(resized, BW2, [255 0 0])
-
 %% Stage 1
+
+% Threshold using the IsoData Method
+level=isodata(medianFilt);
+% Convert to Binary
+BW = im2bw(medianFilt, level-.008)
+figure('Name', 'BW'), imshow(BW);
+% Remove small pixels
+BW2 = bwareaopen(BW, 100)
+figure('Name', 'BW2'), imshow(BW2);
+% Overlay
+out = imoverlay(resized, BW2, [255 0 0])
 
 [x, y, z] = size(out);
 

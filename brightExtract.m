@@ -61,5 +61,14 @@ end
 
 figure('Name', 'Mask Image'), imshow(maskImage);
 
-Z = imabsdiff(double(JF),maskImage);
-figure('Name', 'Diff Image'), imshow(Z);
+% Z = imsubtract(maskImage, double(JF));
+
+brightLesion = zeros(500);
+for i = 1:y
+    for j = 1:x
+        if(JF(i,j) == 1 && maskImage(i,j) == 1)
+           brightLesion(i,j) = 1; 
+        end
+    end
+end
+figure('Name', 'Bright Lesion'), imshow(brightLesion);
